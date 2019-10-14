@@ -1,0 +1,23 @@
+@import '~bpk-mixins';
+
+@import '../../../theme';
+
+.Actions {
+  display: flex;
+  justify-content: space-between;
+  background-color: $bpk-color-white;
+
+  button {
+    color: $brand-color;
+    display: inline-flex;
+
+    &:not(:last-child) {
+      margin-right: $bpk-spacing-sm;
+    }
+  }
+
+  &__icon {
+    fill: $brand-color;
+    align-self: center;
+  }
+}

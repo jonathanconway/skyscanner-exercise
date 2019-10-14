@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header should render correctly 1`] = `
+<div
+  className="Header"
+>
+  <BpkText
+    bold={false}
+    className="Header__title"
+    tagName="h1"
+    textStyle="xxl"
+  >
+    <span />
+    <_default
+      className="Header__title-arrow"
+    />
+    <span />
+  </BpkText>
+  <BpkText
+    bold={false}
+    className="Header__subtitle"
+    tagName="p"
+    textStyle="base"
+  >
+     travellers, 
+  </BpkText>
+</div>
+`;

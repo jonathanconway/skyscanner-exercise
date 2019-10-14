@@ -1,0 +1,14 @@
+@import '~bpk-mixins';
+
+.App {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: $bpk-color-sky-gray-tint-07;
+
+  &__main {
+    display: flex;
+    flex: 1;
+    height: 0;
+  }
+}

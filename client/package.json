@@ -1,0 +1,41 @@
+{
+  "private": true,
+  "name": "client",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "lint:scss": "stylelint 'src/**/*.scss' --syntax scss",
+    "lint:scss:fix": "stylefmt --recursive 'src/**/*.scss'",
+    "lint:js": "eslint . --ignore-path ./../.gitignore --ext .js,.jsx",
+    "lint:js:fix": "npm run lint:js -- --fix",
+    "lint": "npm run lint:js && npm run lint:scss"
+  },
+  "devDependencies": {
+    "backpack-react-scripts": "^7.0.2",
+    "prop-types": "^15.7.2"
+  },
+  "proxy": "http://localhost:4000",
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "dependencies": {
+    "bpk-component-banner-alert": "^3.0.9",
+    "bpk-component-button": "^3.0.5",
+    "bpk-component-card": "^2.0.5",
+    "bpk-component-icon": "^5.0.5",
+    "bpk-component-image": "^3.0.7",
+    "bpk-component-spinner": "^3.0.7",
+    "bpk-component-text": "^2.0.5",
+    "bpk-mixins": "^19.0.4",
+    "bpk-stylesheets": "^4.0.4",
+    "luxon": "^1.19.3",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
+    "react-test-renderer": "^16.10.2"
+  }
+}

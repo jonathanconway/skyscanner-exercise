@@ -1,0 +1,91 @@
+@import '~bpk-mixins';
+
+@import '../../../theme';
+
+.Itinerary {
+  &:not(:last-child) {
+    margin-bottom: $bpk-spacing-sm;
+  }
+
+  &__segment {
+    display: flex;
+    flex-direction: row;
+
+    &:not(:last-child) {
+      margin-bottom: $bpk-spacing-sm;
+    }
+
+    & > * {
+      &:not(:last-child) {
+        margin-right: $bpk-spacing-sm;
+      }
+    }
+
+    &-carrier-icon {
+      width: $bpk-icon-size-lg;
+    }
+
+    &-sides {
+      display: flex;
+      flex-direction: row;
+
+      & > * {
+        &:not(:last-child) {
+          margin-right: $bpk-spacing-sm;
+        }
+      }
+
+      &-side {
+        display: flex;
+        flex-direction: column;
+
+        &-code {
+          color: $bpk-color-sky-gray-tint-04;
+        }
+      }
+
+      &-divider {
+        display: flex;
+        align-items: center;
+        fill: $bpk-color-sky-gray-tint-04;
+      }
+    }
+
+    &-details {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      text-align: right;
+
+      &-type-direct {
+        color: $action-color-shade-4;
+      }
+    }
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    & > div {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &-source {
+      color: $bpk-color-sky-gray-tint-04;
+    }
+
+    &-select-button {
+      @include bpk-border-radius-pill();
+      @include bpk-border-sm($action-color-shade-1);
+
+      display: inline-block;
+      margin-top: auto;
+      background-color: $action-color-shade-3;
+      background-image: linear-gradient(0deg, $action-color-shade-2, $action-color-shade-4);
+      color: $bpk-color-white;
+    }
+  }
+}

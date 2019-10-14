@@ -1,0 +1,30 @@
+@import '~bpk-mixins';
+
+@import '../../../theme';
+
+.Header {
+  display: flex;
+  flex-direction: column;
+  background-color: $brand-color;
+  color: $bpk-color-white;
+
+  &__title {
+    display: flex;
+    margin: 0 0 $bpk-spacing-xs 0;
+    line-height: $bpk-line-height-xl;
+
+    & > * {
+      align-self: center;
+    }
+
+    &-arrow {
+      fill: $bpk-color-white;
+      margin: 0 $bpk-spacing-xs;
+    }
+  }
+
+  &__subtitle {
+    margin: 0;
+    line-height: $bpk-line-height-sm;
+  }
+}

@@ -1,0 +1,30 @@
+@import '~bpk-mixins';
+
+@import '../../theme';
+
+.FlightSearch {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  & > * {
+    padding: $bpk-spacing-sm;
+  }
+
+  &__itineraries {
+    position: relative;
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
+    &-spinner {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -($bpk-icon-size-lg / 2);
+      margin-top: -($bpk-icon-size-lg / 2);
+      fill: $brand-color;
+    }
+  }
+}

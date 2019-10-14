@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Actions should render correctly 1`] = `
+<div
+  className="Actions"
+>
+  <div>
+    <BpkButton
+      blank={false}
+      className={null}
+      destructive={false}
+      disabled={false}
+      featured={false}
+      href={null}
+      iconOnly={false}
+      large={false}
+      link={true}
+      onClick={null}
+      outline={false}
+      rel={null}
+      secondary={false}
+      submit={false}
+    >
+      Filter
+    </BpkButton>
+    <BpkButton
+      blank={false}
+      className={null}
+      destructive={false}
+      disabled={false}
+      featured={false}
+      href={null}
+      iconOnly={false}
+      large={false}
+      link={true}
+      onClick={null}
+      outline={false}
+      rel={null}
+      secondary={false}
+      submit={false}
+    >
+      Sort
+    </BpkButton>
+  </div>
+  <div>
+    <BpkButton
+      blank={false}
+      className={null}
+      destructive={false}
+      disabled={false}
+      featured={false}
+      href={null}
+      iconOnly={false}
+      large={false}
+      link={true}
+      onClick={null}
+      outline={false}
+      rel={null}
+      secondary={false}
+      submit={false}
+    >
+      <_default
+        className="Actions__icon"
+      />
+      Price Alerts
+    </BpkButton>
+  </div>
+</div>
+`;
