@@ -12,6 +12,7 @@ const STATUS_CODES = {
   CREATED: 201,
   NOT_MODIFIED: 304,
 };
+const DEFAULT_PAGE_SIZE = 5;
 
 const formatParams = params => querystring.stringify({
   country: 'UK',
@@ -54,7 +55,14 @@ const poll = async (location, pageSize) => {
   console.log('Polling results..');
   try {
     const pageIndex = 0,
-          url = `${location}?apikey=${config.apiKey}&pageIndex=${pageIndex}&pageSize=${pageSize}`;
+          { apiKey } = config,
+          query = {
+            apiKey,
+            ...(pageIndex ? { pageIndex } : {}),
+            ...(pageSize ? { pageSize } : { pageSize: DEFAULT_PAGE_SIZE }),
+          },
+          queryAsString = querystring.stringify(query),
+          url = `${location}?${queryAsString}`;
 
     const response = await fetch(url);
     if (response.status === STATUS_CODES.NOT_MODIFIED) {
@@ -91,5 +99,7 @@ const search = async (params) => {
 };
 
 module.exports = {
+  STATUS_CODES,
+  PRICING_URL,
   search,
 };
