@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`flightSearch calls live pricing api and transforms results into correctly structured flight search results 1`] = `
+Object {
+  "itineraries": Array [
+    Object {
+      "id": 0,
+      "legs": Array [
+        Object {
+          "segments": Array [
+            Object {
+              "arrival": Object {
+                "airportCode": "Code-1",
+                "dateTime": "2019-11-04T11:30:00",
+              },
+              "carrier": Object {
+                "imageUrl": "ImageUrl-0",
+                "name": "Name-0",
+              },
+              "departure": Object {
+                "airportCode": "Code-0",
+                "dateTime": "2019-11-04T06:15:00",
+              },
+              "duration": 0,
+              "id": "Id-0",
+            },
+            Object {
+              "arrival": Object {
+                "airportCode": "Code-3",
+                "dateTime": "2019-11-04T17:00:00",
+              },
+              "carrier": Object {
+                "imageUrl": "ImageUrl-1",
+                "name": "Name-1",
+              },
+              "departure": Object {
+                "airportCode": "Code-2",
+                "dateTime": "2019-11-05T11:05:00",
+              },
+              "duration": 100,
+              "id": "Id-1",
+            },
+          ],
+        },
+        Object {
+          "segments": Array [
+            Object {
+              "arrival": Object {
+                "airportCode": "Code-5",
+                "dateTime": "2019-11-05T17:50:00",
+              },
+              "carrier": Object {
+                "imageUrl": "ImageUrl-2",
+                "name": "Name-2",
+              },
+              "departure": Object {
+                "airportCode": "Code-4",
+                "dateTime": "2019-11-05T14:05:00",
+              },
+              "duration": 200,
+              "id": "Id-2",
+            },
+            Object {
+              "arrival": Object {
+                "airportCode": "Code-7",
+                "dateTime": "2019-11-05T07:55:00",
+              },
+              "carrier": Object {
+                "imageUrl": "ImageUrl-3",
+                "name": "Name-3",
+              },
+              "departure": Object {
+                "airportCode": "Code-6",
+                "dateTime": "2019-11-05T06:30:00",
+              },
+              "duration": 300,
+              "id": "Id-3",
+            },
+          ],
+        },
+      ],
+      "price": Object {
+        "agent": Object {
+          "name": "Name-0",
+        },
+        "amount": 123,
+        "currency": Object {
+          "code": "GBP",
+          "symbol": "£",
+        },
+      },
+    },
+    Object {
+      "id": 1,
+      "legs": Array [
+        Object {
+          "segments": Array [
+            Object {
+              "arrival": Object {
+                "airportCode": "Code-9",
+                "dateTime": "2019-11-04T14:05:00",
+              },
+              "carrier": Object {
+                "imageUrl": "ImageUrl-4",
+                "name": "Name-4",
+              },
+              "departure": Object {
+                "airportCode": "Code-8",
+                "dateTime": "2019-11-04T19:40:00",
+              },
+              "duration": 400,
+              "id": "Id-4",
+            },
+          ],
+        },
+        Object {
+          "segments": Array [
+            Object {
+              "arrival": Object {
+                "airportCode": "Code-11",
+                "dateTime": "2019-11-05T11:05:00",
+              },
+              "carrier": Object {
+                "imageUrl": "ImageUrl-5",
+                "name": "Name-5",
+              },
+              "departure": Object {
+                "airportCode": "Code-10",
+                "dateTime": "2019-11-05T19:45:00",
+              },
+              "duration": 500,
+              "id": "Id-5",
+            },
+          ],
+        },
+      ],
+      "price": Object {
+        "agent": Object {
+          "name": "Name-2",
+        },
+        "amount": 123,
+        "currency": Object {
+          "code": "GBP",
+          "symbol": "£",
+        },
+      },
+    },
+  ],
+}
+`;

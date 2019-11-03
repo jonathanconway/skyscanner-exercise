@@ -44,11 +44,12 @@ const getCurrency = () => {
 
 const mapItineraries = (sourceData, currency) => {
   const mappedItineraries = sourceData.Itineraries.map((sourceItinerary, sourceItineraryIndex) => {
-    const leg = mapLeg(sourceData, sourceItinerary.OutboundLegId);
+    console.log("sourceItinerary", sourceItinerary);
+    const legs = mapLegs(sourceData, sourceItinerary.OutboundLegId, sourceItinerary.InboundLegId);
 
     return {
       id: sourceItineraryIndex,
-      leg,
+      legs,
       price: mapPrice(sourceData, sourceItinerary.PricingOptions, currency)
     };
   });
@@ -57,13 +58,23 @@ const mapItineraries = (sourceData, currency) => {
   return mappedItineraries;
 };
 
-const mapLeg = (sourceData, sourceLegId) => {
-  const matchingSourceLeg = sourceData.Legs.find(leg => leg.Id === sourceLegId),
-        segments = matchingSourceLeg.SegmentIds.map(segmentId => mapSegment(sourceData, segmentId));
+const mapLegs = (sourceData, sourceOutboundLegId, sourceInboundLegId) => {
+  const mapLeg = (sourceLegId) => {
+    const matchingSourceLeg = sourceData.Legs.find(leg => leg.Id === sourceLegId),
+          segments = matchingSourceLeg.SegmentIds.map(segmentId => mapSegment(sourceData, segmentId));
 
-  return {
-    segments
+    return {
+      segments
+    };
   };
+
+  const legs = [
+    mapLeg(sourceOutboundLegId),
+    mapLeg(sourceInboundLegId)
+  ];
+
+  console.log('Mapped legs', legs);
+  return legs;
 };
 
 const mapSegment = (sourceData, sourceSegmentId) => {

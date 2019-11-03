@@ -23,57 +23,61 @@ const mapCarrierImageUrlToIconUrl = (imageUrl) => {
   return misc.replacePath(imageUrl, carrierFavIconHostAndPath);
 };
 
-const Itinerary = ({ id, leg, price }) => {
+const Itinerary = ({ id, legs, price }) => {
   return (
     <BpkCard key={id} className={c('Itinerary')}>
-      {leg.segments.map(({
-        id,
-        carrier,
-        departure,
-        arrival,
-        duration
-      }) => (
-        <div key={id} className={c('Itinerary__segment')}>
-          <BpkImage
-            className={c('Itinerary__segment-carrier-icon')}
-            altText={carrier.name}
-            width={32}
-            height={32}
-            src={mapCarrierImageUrlToIconUrl(carrier.imageUrl)}
-          />
+      {legs.map((leg, legIndex) => (
+        <div key={`leg-${legIndex}`}>
+          {leg.segments.map(({
+            id,
+            carrier,
+            departure,
+            arrival,
+            duration
+          }) => (
+            <div key={id} className={c('Itinerary__segment')}>
+              <BpkImage
+                className={c('Itinerary__segment-carrier-icon')}
+                altText={carrier.name}
+                width={32}
+                height={32}
+                src={mapCarrierImageUrlToIconUrl(carrier.imageUrl)}
+              />
 
-          <div className={c('Itinerary__segment-sides')}>
-            <div className={c('Itinerary__segment-sides-side')}>
-              <BpkText tag="span">
-                {dateTime.formatTime(departure.dateTime)}
-              </BpkText>
-              <BpkText tag="span" className={c('Itinerary__segment-sides-side-code')}>
-                {departure.airportCode}
-              </BpkText>
+              <div className={c('Itinerary__segment-sides')}>
+                <div className={c('Itinerary__segment-sides-side')}>
+                  <BpkText tag="span">
+                    {dateTime.formatTime(departure.dateTime)}
+                  </BpkText>
+                  <BpkText tag="span" className={c('Itinerary__segment-sides-side-code')}>
+                    {departure.airportCode}
+                  </BpkText>
+                </div>
+
+                <b className={c('Itinerary__segment-sides-divider')}>
+                  <BpkSmallLongArrowRight />
+                </b>
+
+                <div className={c('Itinerary__segment-sides-side')}>
+                  <BpkText tag="span">
+                    {dateTime.formatTime(arrival.dateTime)}
+                  </BpkText>
+                  <BpkText tag="span" className={c('Itinerary__segment-sides-side-code')}>
+                    {arrival.airportCode}
+                  </BpkText>
+                </div>
+              </div>
+
+              <div className={c('Itinerary__segment-details')}>
+                <BpkText tag="span">
+                  {dateTime.formatDuration(duration)}
+                </BpkText>
+                <BpkText tag="span" className={c('Itinerary__segment-details-type-direct')}>
+                  Direct
+                </BpkText>
+              </div>
             </div>
-
-            <b className={c('Itinerary__segment-sides-divider')}>
-              <BpkSmallLongArrowRight />
-            </b>
-
-            <div className={c('Itinerary__segment-sides-side')}>
-              <BpkText tag="span">
-                {dateTime.formatTime(arrival.dateTime)}
-              </BpkText>
-              <BpkText tag="span" className={c('Itinerary__segment-sides-side-code')}>
-                {arrival.airportCode}
-              </BpkText>
-            </div>
-          </div>
-
-          <div className={c('Itinerary__segment-details')}>
-            <BpkText tag="span">
-              {dateTime.formatDuration(duration)}
-            </BpkText>
-            <BpkText tag="span" className={c('Itinerary__segment-details-type-direct')}>
-              Direct
-            </BpkText>
-          </div>
+          ))}
         </div>
       ))}
 

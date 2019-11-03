@@ -7,27 +7,78 @@ exports[`Itinerary should render correctly 1`] = `
   href={null}
   padded={true}
 >
-  <div
-    className="Itinerary__segment"
-  >
-    <BpkImage
-      altText="CARRIER_NAME"
-      borderRadiusStyle="none"
-      className="Itinerary__segment-carrier-icon"
-      height={32}
-      inView={true}
-      loading={false}
-      onLoad={null}
-      src="https://logos.skyscnr.com/images/airlines/favicon/imageUrl.png"
-      style={Object {}}
-      suppressHydrationWarning={false}
-      width={32}
-    />
+  <div>
     <div
-      className="Itinerary__segment-sides"
+      className="Itinerary__segment"
     >
+      <BpkImage
+        altText="CARRIER_NAME"
+        borderRadiusStyle="none"
+        className="Itinerary__segment-carrier-icon"
+        height={32}
+        inView={true}
+        loading={false}
+        onLoad={null}
+        src="https://logos.skyscnr.com/images/airlines/favicon/imageUrl.png"
+        style={Object {}}
+        suppressHydrationWarning={false}
+        width={32}
+      />
       <div
-        className="Itinerary__segment-sides-side"
+        className="Itinerary__segment-sides"
+      >
+        <div
+          className="Itinerary__segment-sides-side"
+        >
+          <BpkText
+            bold={false}
+            className={null}
+            tag="span"
+            tagName="span"
+            textStyle="base"
+          >
+            16:20
+          </BpkText>
+          <BpkText
+            bold={false}
+            className="Itinerary__segment-sides-side-code"
+            tag="span"
+            tagName="span"
+            textStyle="base"
+          >
+            EDI
+          </BpkText>
+        </div>
+        <b
+          className="Itinerary__segment-sides-divider"
+        >
+          <_default />
+        </b>
+        <div
+          className="Itinerary__segment-sides-side"
+        >
+          <BpkText
+            bold={false}
+            className={null}
+            tag="span"
+            tagName="span"
+            textStyle="base"
+          >
+            16:20
+          </BpkText>
+          <BpkText
+            bold={false}
+            className="Itinerary__segment-sides-side-code"
+            tag="span"
+            tagName="span"
+            textStyle="base"
+          >
+            LGW
+          </BpkText>
+        </div>
+      </div>
+      <div
+        className="Itinerary__segment-details"
       >
         <BpkText
           bold={false}
@@ -36,90 +87,92 @@ exports[`Itinerary should render correctly 1`] = `
           tagName="span"
           textStyle="base"
         >
-          16:20
+          1h 30
         </BpkText>
         <BpkText
           bold={false}
-          className="Itinerary__segment-sides-side-code"
+          className="Itinerary__segment-details-type-direct"
           tag="span"
           tagName="span"
           textStyle="base"
         >
-          EDI
+          Direct
         </BpkText>
       </div>
-      <b
-        className="Itinerary__segment-sides-divider"
-      >
-        <_default />
-      </b>
-      <div
-        className="Itinerary__segment-sides-side"
-      >
-        <BpkText
-          bold={false}
-          className={null}
-          tag="span"
-          tagName="span"
-          textStyle="base"
-        >
-          16:20
-        </BpkText>
-        <BpkText
-          bold={false}
-          className="Itinerary__segment-sides-side-code"
-          tag="span"
-          tagName="span"
-          textStyle="base"
-        >
-          LGW
-        </BpkText>
-      </div>
-    </div>
-    <div
-      className="Itinerary__segment-details"
-    >
-      <BpkText
-        bold={false}
-        className={null}
-        tag="span"
-        tagName="span"
-        textStyle="base"
-      >
-        1h 30
-      </BpkText>
-      <BpkText
-        bold={false}
-        className="Itinerary__segment-details-type-direct"
-        tag="span"
-        tagName="span"
-        textStyle="base"
-      >
-        Direct
-      </BpkText>
     </div>
   </div>
-  <div
-    className="Itinerary__segment"
-  >
-    <BpkImage
-      altText="CARRIER_NAME"
-      borderRadiusStyle="none"
-      className="Itinerary__segment-carrier-icon"
-      height={32}
-      inView={true}
-      loading={false}
-      onLoad={null}
-      src="https://logos.skyscnr.com/images/airlines/favicon/imageUrl.png"
-      style={Object {}}
-      suppressHydrationWarning={false}
-      width={32}
-    />
+  <div>
     <div
-      className="Itinerary__segment-sides"
+      className="Itinerary__segment"
     >
+      <BpkImage
+        altText="CARRIER_NAME"
+        borderRadiusStyle="none"
+        className="Itinerary__segment-carrier-icon"
+        height={32}
+        inView={true}
+        loading={false}
+        onLoad={null}
+        src="https://logos.skyscnr.com/images/airlines/favicon/imageUrl.png"
+        style={Object {}}
+        suppressHydrationWarning={false}
+        width={32}
+      />
       <div
-        className="Itinerary__segment-sides-side"
+        className="Itinerary__segment-sides"
+      >
+        <div
+          className="Itinerary__segment-sides-side"
+        >
+          <BpkText
+            bold={false}
+            className={null}
+            tag="span"
+            tagName="span"
+            textStyle="base"
+          >
+            16:20
+          </BpkText>
+          <BpkText
+            bold={false}
+            className="Itinerary__segment-sides-side-code"
+            tag="span"
+            tagName="span"
+            textStyle="base"
+          >
+            LGW
+          </BpkText>
+        </div>
+        <b
+          className="Itinerary__segment-sides-divider"
+        >
+          <_default />
+        </b>
+        <div
+          className="Itinerary__segment-sides-side"
+        >
+          <BpkText
+            bold={false}
+            className={null}
+            tag="span"
+            tagName="span"
+            textStyle="base"
+          >
+            16:20
+          </BpkText>
+          <BpkText
+            bold={false}
+            className="Itinerary__segment-sides-side-code"
+            tag="span"
+            tagName="span"
+            textStyle="base"
+          >
+            EDI
+          </BpkText>
+        </div>
+      </div>
+      <div
+        className="Itinerary__segment-details"
       >
         <BpkText
           bold={false}
@@ -128,67 +181,18 @@ exports[`Itinerary should render correctly 1`] = `
           tagName="span"
           textStyle="base"
         >
-          16:20
+          2h
         </BpkText>
         <BpkText
           bold={false}
-          className="Itinerary__segment-sides-side-code"
+          className="Itinerary__segment-details-type-direct"
           tag="span"
           tagName="span"
           textStyle="base"
         >
-          LGW
+          Direct
         </BpkText>
       </div>
-      <b
-        className="Itinerary__segment-sides-divider"
-      >
-        <_default />
-      </b>
-      <div
-        className="Itinerary__segment-sides-side"
-      >
-        <BpkText
-          bold={false}
-          className={null}
-          tag="span"
-          tagName="span"
-          textStyle="base"
-        >
-          16:20
-        </BpkText>
-        <BpkText
-          bold={false}
-          className="Itinerary__segment-sides-side-code"
-          tag="span"
-          tagName="span"
-          textStyle="base"
-        >
-          EDI
-        </BpkText>
-      </div>
-    </div>
-    <div
-      className="Itinerary__segment-details"
-    >
-      <BpkText
-        bold={false}
-        className={null}
-        tag="span"
-        tagName="span"
-        textStyle="base"
-      >
-        2h
-      </BpkText>
-      <BpkText
-        bold={false}
-        className="Itinerary__segment-details-type-direct"
-        tag="span"
-        tagName="span"
-        textStyle="base"
-      >
-        Direct
-      </BpkText>
     </div>
   </div>
   <div

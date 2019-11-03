@@ -1,6 +1,5 @@
 const flightSearch = require('./flight-search');
 const livePricing = require('./live-pricing');
-const flightSearchTestData = require('./flight-search.test-data.json');
 
 // mock config
 jest.mock('../config', () => ({
@@ -15,92 +14,121 @@ jest.mock('../config', () => ({
 
 // mock live-pricing
 jest.mock('./live-pricing');
-livePricing.search.mockImplementation(async () => ({
-  ...flightSearchTestData,
-  Itineraries: flightSearchTestData.Itineraries.slice(0, 5)
-}));
+livePricing.search.mockImplementation(async () => {
+  const forN = (n) => Array(n).fill(0).map((_, index) => index);
+  const fakeProps = (index, ...propNames) => propNames.reduce((obj, propName) => ({ ...obj, [propName]: `${propName}-${index}` }), {});
+
+  const Agents = forN(5).map((_, agentIndex) => fakeProps(agentIndex, "Id", "Name", "ImageUrl"));
+
+  const Places = forN(12).map((_, placeIndex) => fakeProps(placeIndex, "Id", "Name", "ImageUrl", "Code"));
+
+  const Carriers = forN(6).map((_, carrierIndex) => fakeProps(carrierIndex, "Id", "Code", "Name", "ImageUrl"));
+
+  const dates = [
+    "2019-11-04T06:15:00",
+    "2019-11-04T11:30:00",
+    "2019-11-05T11:05:00",
+    "2019-11-04T17:00:00",
+    "2019-11-05T14:05:00",
+    "2019-11-05T17:50:00",
+    "2019-11-05T06:30:00",
+    "2019-11-05T07:55:00",
+    "2019-11-04T19:40:00",
+    "2019-11-04T14:05:00",
+    "2019-11-05T19:45:00",
+    "2019-11-05T11:05:00",
+  ];
+
+  const Segments = forN(6).map((_, segmentIndex) => ({
+    ...fakeProps(segmentIndex, "Id"),
+    OriginStation: Places[segmentIndex * 2].Id,
+    DestinationStation: Places[(segmentIndex * 2) + 1].Id,
+    Carrier: Carriers[segmentIndex].Id,
+    DepartureDateTime: dates[segmentIndex * 2],
+    ArrivalDateTime: dates[(segmentIndex * 2) + 1],
+    Duration: segmentIndex * 100
+  }));
+
+  const Legs = [
+    {
+      Id: "Id-0",
+      SegmentIds: [Segments[0].Id, Segments[1].Id],
+      DepartureDateTime: dates[0],
+      ArrivalDateTime: dates[1],
+    },
+    {
+      Id: "Id-1",
+      SegmentIds: [Segments[2].Id, Segments[3].Id],
+      DepartureDateTime: dates[2],
+      ArrivalDateTime: dates[3],
+    },
+    {
+      Id: "Id-2",
+      SegmentIds: [Segments[4].Id],
+      DepartureDateTime: dates[4],
+      ArrivalDateTime: dates[5],
+    },
+    {
+      Id: "Id-3",
+      SegmentIds: [Segments[5].Id],
+      DepartureDateTime: dates[6],
+      ArrivalDateTime: dates[7],
+    }
+  ];
+
+  const Itineraries = ([
+    {
+      Id: "Id-0",
+      OutboundLegId: Legs[0].Id,
+      InboundLegId: Legs[1].Id,
+      PricingOptions: [
+        {
+          Agents: [Agents[0].Id],
+          Price: 123,
+        }, {
+          Agents: [Agents[1].Id],
+          Price: 456,
+        }
+      ]
+    },
+    {
+      Id: "Id-1",
+      OutboundLegId: Legs[2].Id,
+      InboundLegId: Legs[3].Id,
+      PricingOptions: [
+        {
+          Agents: [Agents[1].Id],
+          Price: 456,
+        }, {
+          Agents: [Agents[2].Id],
+          Price: 123,
+        }
+      ]
+    }
+  ]);
+
+  const result = {
+    Agents,
+    Carriers,
+    Places,
+    Segments,
+    Legs,
+    Itineraries,
+  };
+
+  return result;
+});
 
 describe('flightSearch', () => {
   it('calls live pricing api and transforms results into correctly structured flight search results', async () => {
-    const result = await flightSearch({
+    const query = {
       originPlace: 'EDI',
       destinationPlace: 'LHR',
       outboundDate: '2019-10-16'
-    });
+    };
+    
+    const result = await flightSearch(query);
 
-    // Itineraries
-    expect(result).toBeTruthy();
-    expect(result.itineraries).toBeTruthy();
-    expect(Array.isArray(result.itineraries)).toBeTruthy();
-    expect(result.itineraries.length).toEqual(5);
-
-    // Ids
-    expect(result.itineraries.map(it => it.id))
-      .toEqual([ 0, 1, 2, 3, 4 ])
-
-    // Prices
-    expect(result.itineraries.every(it => it.price.currency.code === 'GBP'))
-      .toBeTruthy();
-    expect(result.itineraries.every(it => it.price.currency.symbol === '£'))
-      .toBeTruthy();
-
-    expect(result.itineraries.map(it => it.price.amount))
-      .toEqual([ 345.81, 482.14, 336.5, 517.94, 260.62 ]);
-
-    // Leg - Segments - Departures
-    expect(result.itineraries.map(it => it.leg.segments.map(seg => seg.departure)))
-      .toEqual(
-        [ [ { airportCode: 'EDI', dateTime: '2019-10-16T16:20:00' },
-            { airportCode: 'BRU', dateTime: '2019-10-16T21:25:00' } ],
-          [ { airportCode: 'EDI', dateTime: '2019-10-16T12:40:00' },
-            { airportCode: 'CGN', dateTime: '2019-10-16T18:30:00' } ],
-          [ { airportCode: 'EDI', dateTime: '2019-10-16T08:50:00' },
-            { airportCode: 'SNN', dateTime: '2019-10-17T07:30:00' } ],
-          [ { airportCode: 'EDI', dateTime: '2019-10-16T06:00:00' },
-            { airportCode: 'AMS', dateTime: '2019-10-16T11:50:00' },
-            { airportCode: 'MXP', dateTime: '2019-10-16T16:55:00' } ],
-          [ { airportCode: 'EDI', dateTime: '2019-10-16T08:15:00' } ] ]);
-
-    // Leg - Segments - Arrivals
-    expect(result.itineraries.map(it => it.leg.segments.map(seg => seg.arrival)))
-      .toEqual(
-        [ [ { airportCode: 'BRU', dateTime: '2019-10-16T19:00:00' },
-            { airportCode: 'LHR', dateTime: '2019-10-16T21:35:00' } ],
-          [ { airportCode: 'CGN', dateTime: '2019-10-16T15:30:00' },
-            { airportCode: 'LHR', dateTime: '2019-10-16T19:05:00' } ],
-          [ { airportCode: 'SNN', dateTime: '2019-10-16T10:30:00' },
-            { airportCode: 'LHR', dateTime: '2019-10-17T09:05:00' } ],
-          [ { airportCode: 'AMS', dateTime: '2019-10-16T08:35:00' },
-            { airportCode: 'MXP', dateTime: '2019-10-16T13:25:00' },
-            { airportCode: 'LHR', dateTime: '2019-10-16T18:00:00' } ],
-          [ { airportCode: 'LHR', dateTime: '2019-10-16T09:50:00' } ] ]);
-
-    // Leg - Segments - Carriers
-    expect(result.itineraries.map(it => it.leg.segments.map(seg => seg.carrier)))
-      .toEqual(
-        [ [ { name: 'Brussels Airlines',
-              imageUrl: 'https://s1.apideeplink.com/images/airlines/SN.png' },
-            { name: 'Brussels Airlines',
-              imageUrl: 'https://s1.apideeplink.com/images/airlines/SN.png' } ],
-          [ { name: 'eurowings',
-              imageUrl: 'https://s1.apideeplink.com/images/airlines/EW.png' },
-            { name: 'eurowings',
-              imageUrl: 'https://s1.apideeplink.com/images/airlines/EW.png' } ],
-          [ { name: 'British Airways',
-              imageUrl: 'https://s1.apideeplink.com/images/airlines/BA.png' },
-            { name: 'British Airways',
-              imageUrl: 'https://s1.apideeplink.com/images/airlines/BA.png' } ],
-          [ { name: 'Alitalia',
-              imageUrl: 'https://s1.apideeplink.com/images/airlines/AZ.png' },
-            { name: 'Alitalia',
-              imageUrl: 'https://s1.apideeplink.com/images/airlines/AZ.png' },
-            { name: 'Alitalia',
-              imageUrl: 'https://s1.apideeplink.com/images/airlines/AZ.png' } ],
-          [ { name: 'British Airways',
-              imageUrl: 'https://s1.apideeplink.com/images/airlines/BA.png' } ] ]);
-
-    // Leg - Segments - Durations
-    expect(result.itineraries.map(it => it.leg.segments.map(seg => seg.duration)))
-      .toEqual([ [ 100, 70 ], [ 110, 95 ], [ 100, 95 ], [ 95, 95, 125 ], [ 95 ] ]);
+    expect(result).toMatchSnapshot();
   });
 });

@@ -7,7 +7,7 @@ import Itinerary from './Itinerary';
 describe('Itinerary', () => {
   const props = {
     id: 0,
-    leg: {
+    legs: [{
       segments: [
         {
           id: 's0',
@@ -24,25 +24,26 @@ describe('Itinerary', () => {
             airportCode: 'LGW'
           },
           duration: 90
-        },
-        {
-          id: 's1',
-          carrier: {
-            name: 'CARRIER_NAME',
-            imageUrl: 'imageUrl.png'
-          },
-          departure: {
-            dateTime: '2019-10-24T16:20:00',
-            airportCode: 'LGW'
-          },
-          arrival: {
-            dateTime: '2019-10-25T16:20:00',
-            airportCode: 'EDI'
-          },
-          duration: 120
         }
       ]
-    },
+    }, {
+      segments: [{
+        id: 's1',
+        carrier: {
+          name: 'CARRIER_NAME',
+          imageUrl: 'imageUrl.png'
+        },
+        departure: {
+          dateTime: '2019-10-24T16:20:00',
+          airportCode: 'LGW'
+        },
+        arrival: {
+          dateTime: '2019-10-25T16:20:00',
+          airportCode: 'EDI'
+        },
+        duration: 120
+      }]
+    }],
     price: {
       currency: {
         code: 'GBP',
