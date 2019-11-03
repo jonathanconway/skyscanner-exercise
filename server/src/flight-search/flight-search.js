@@ -36,7 +36,6 @@ const mapLivePricingQuery = (query) => {
 };
 
 const getCurrency = () => {
-  console.log('Config', config);
   const currency = config.currencies[config.currency];
   console.log('Currency config..', currency);
   return currency;
