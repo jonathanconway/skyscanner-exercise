@@ -1,6 +1,14 @@
 const flightSearch = require('./flight-search');
 const livePricing = require('./live-pricing');
 
+// mock shortid
+jest.mock('shortid', () => ({
+  generate: () => {
+    this.shortIdCounter = this.shortIdCounter || 0;
+    return this.shortIdCounter++;
+  }
+}));
+
 // mock config
 jest.mock('../config', () => ({
   currency: 'GBP',

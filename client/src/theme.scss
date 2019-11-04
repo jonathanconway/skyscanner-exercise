@@ -4,3 +4,12 @@ $action-color-shade-1: #00b85d;
 $action-color-shade-2: #1dbc6c;
 $action-color-shade-3: #1fc771;
 $action-color-shade-4: #21d377;
+
+.action-button {
+  @include bpk-border-radius-pill();
+  @include bpk-border-sm($action-color-shade-1);
+
+  background-color: $action-color-shade-3;
+  background-image: linear-gradient(0deg, $action-color-shade-2, $action-color-shade-4);
+  color: $bpk-color-white;
+}

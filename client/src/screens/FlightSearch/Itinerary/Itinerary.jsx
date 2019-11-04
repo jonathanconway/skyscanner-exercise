@@ -101,7 +101,7 @@ const Itinerary = ({ id, legs, price }) => {
 };
 
 Itinerary.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.string,
   leg: PropTypes.shape({
     segments: PropTypes.arrayOf(PropTypes.shape({
       carrier: PropTypes.shape({

@@ -1,6 +1,5 @@
 const fetch = require('node-fetch');
-let livePricing = require('./live-pricing');
-const config = require('../config');
+const livePricing = require('./live-pricing');
 
 // mock config
 jest.mock('../config', () => ({
@@ -12,7 +11,8 @@ jest.mock('../config', () => ({
     }
   },
   apiKey: 'APIKEY',
-  skyscannerApi: 'SKYSCANNERAPI'
+  skyscannerApi: 'SKYSCANNERAPI',
+  defaultPageSize: 5
 }));
 
 // mock fetch
@@ -63,17 +63,45 @@ describe('live-pricing', () => {
             method: 'POST'
           }));
         expect(fetch).toHaveBeenNthCalledWith(2,
-          'LOCATION_TO_POLL?apiKey=APIKEY&pageSize=5');
+          'LOCATION_TO_POLL?apiKey=APIKEY&pageIndex=0&pageSize=5');
 
         expect(results).toBeTruthy();
         expect(results).toEqual({
           Status: 'UpdatesComplete',
           resultFakeProp: 'resultFakeValue-0'
-        })
+        });
+      });
+
+      it('passes through all applicable query parameters', async () => {
+        fetchMockConfig.counter = 0;
+        fetch.mockClear();
+
+        const query = {
+          originAirportCode: 'EDI',
+          destinationAirportCode: 'LHR',
+          outboundDate: "2019-11-04",
+          returnDate: "2019-11-04",
+          numberOfTravellers: 2,
+          currencyCode: 'GBP',
+          skip: 5,
+          take: 10
+        };
+
+        await livePricing.search(query);
+
+        expect(fetch).toHaveBeenNthCalledWith(1,
+          livePricing.PRICING_URL,
+          expect.objectContaining({
+            body: 'country=UK&currency=GBP&locale=en-GB&locationSchema=Sky&apiKey=APIKEY' + 
+                  '&originAirportCode=EDI&destinationAirportCode=LHR&outboundDate=2019-11-04' +
+                  '&returnDate=2019-11-04&numberOfTravellers=2&currencyCode=GBP&skip=5&take=10',
+            method: 'POST'
+          }));
+        expect(fetch).toHaveBeenNthCalledWith(2,
+          'LOCATION_TO_POLL?apiKey=APIKEY&pageIndex=0&pageSize=5');
       });
 
       it('returns subsequent results if different', async () => {
-        livePricing = require('./live-pricing');
         fetchMockConfig.counter = 0;
 
         const query = {};
@@ -90,7 +118,6 @@ describe('live-pricing', () => {
       });
 
       it('returns the cached results if same', async () => {
-        livePricing = require('./live-pricing');
         fetchMockConfig.counter = 0;
 
         const query = {};

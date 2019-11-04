@@ -10,10 +10,7 @@
   &__segment {
     display: flex;
     flex-direction: row;
-
-    &:not(:last-child) {
-      margin-bottom: $bpk-spacing-sm;
-    }
+    margin-bottom: $bpk-spacing-sm;
 
     & > * {
       &:not(:last-child) {
@@ -78,14 +75,10 @@
     }
 
     &-select-button {
-      @include bpk-border-radius-pill();
-      @include bpk-border-sm($action-color-shade-1);
+      @extend .action-button;
 
       display: inline-block;
       margin-top: auto;
-      background-color: $action-color-shade-3;
-      background-image: linear-gradient(0deg, $action-color-shade-2, $action-color-shade-4);
-      color: $bpk-color-white;
     }
   }
 }

@@ -7,6 +7,9 @@ const flightSearch = require('./flight-search');
  * @property {string} destinationAirportCode - code of airport to fly in to.
  * @property {string} outboundDate - Date of flight, in the format: 'YYYY-MM-DD'.
  * @property {string} returnDate - Date of return flight, in the format: 'YYYY-MM-DD'.
+ * @property {number} skip - Page skip amount. (Optional.)
+ * @property {number} take - Page take amount. (Optional.)
+ * @property {string} currencyCode - Three letter currency code. E.g.: 'GBP'.
  */
 
 /**
@@ -50,10 +53,18 @@ const validateApiSearch = (req) => {
     }
   };
 
+  const validateUndefinedOr = (value, fn) => {
+    if (value === undefined) {
+      return;
+    }
+    fn(value);
+  };
+
   validateAirportCode(req.query.originAirportCode);
   validateAirportCode(req.query.destinationAirportCode);
   validateDateString(req.query.outboundDate);
   validateDateString(req.query.returnDate);
+  validateUndefinedOr(req.query.skip, validateSmallInt);
   validateSmallInt(req.query.take);
 };
 

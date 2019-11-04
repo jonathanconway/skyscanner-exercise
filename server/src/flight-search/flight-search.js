@@ -1,3 +1,5 @@
+const shortid = require('shortid');
+
 const livePricing = require('./live-pricing');
 const config = require('../config');
 
@@ -27,8 +29,10 @@ const mapLivePricingQuery = (query) => {
     destinationPlace: query.destinationAirportCode,
     outboundDate: query.outboundDate,
     inboundDate: query.returnDate,
+    numberOfTravellers: query.numberOfTravellers,
+    currency: query.currencyCode,
+    pageIndex: query.skip,
     pageSize: query.take,
-    currency: query.currencyCode
   }
   console.log('Generated live pricing query..', livePricingQuery);
 
@@ -43,11 +47,11 @@ const getCurrency = () => {
 
 const mapItineraries = (sourceData, currency) => {
   const mappedItineraries = sourceData.Itineraries.map((sourceItinerary, sourceItineraryIndex) => {
-    console.log("sourceItinerary", sourceItinerary);
+    console.log('sourceItinerary', sourceItinerary);
     const legs = mapLegs(sourceData, sourceItinerary.OutboundLegId, sourceItinerary.InboundLegId);
 
     return {
-      id: sourceItineraryIndex,
+      id: shortid.generate(),
       legs,
       price: mapPrice(sourceData, sourceItinerary.PricingOptions, currency)
     };

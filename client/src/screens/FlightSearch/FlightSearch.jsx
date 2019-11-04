@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { BpkExtraLargeSpinner } from 'bpk-component-spinner';
 import BpkBannerAlert, { ALERT_TYPES } from 'bpk-component-banner-alert';
+import BpkButton from 'bpk-component-button';
 
 import FlightSearchContext from './FlightSearch.context';
 import Header from './Header/Header';
 import Actions from './Actions/Actions';
 import Itinerary from './Itinerary/Itinerary';
+import http from './FlightSearch.http';
 
 import STYLES from './FlightSearch.scss';
-import http from './FlightSearch.http';
 
 const c = className => STYLES[className] || 'UNKNOWN';
 
@@ -26,33 +27,43 @@ const FlightSearch = (props) => {
 
         [isLoadingItineraries, setIsLoadingItineraries] = useState(false),
         [error, setError] = useState(undefined),
-        [itineraries, setItineraries] = useState(undefined);
+        [itineraries, setItineraries] = useState(undefined),
+        [page, setPage] = useState(0);
+
+  const loadItineraries = async () => {
+    setError(undefined);
+    setIsLoadingItineraries(true);
+
+    try {
+      let results = await http.getSearch({
+        originAirportCode,
+        destinationAirportCode,
+        outboundDate,
+        returnDate,
+        skip: page * 5,
+        take: DEFAULT_TAKE,
+        currencyCode
+      });
+
+      if (page > 0) {
+        setItineraries([ ...itineraries, ...results.itineraries ]);
+      } else {
+        setItineraries(results.itineraries);
+      }
+    } catch (ex) {
+      setError(ex);
+    }
+
+    setIsLoadingItineraries(false);
+  };
+
+  const handleClickNext = () => {
+    setPage(page + 1);
+  };
 
   useEffect(() => {
-    const loadItineraries = async () => {
-      setError(undefined);
-      setIsLoadingItineraries(true);
-  
-      try {
-        const itineraries = await http.getSearch({
-            originAirportCode,
-            destinationAirportCode,
-            outboundDate,
-            returnDate,
-            take: DEFAULT_TAKE,
-            currencyCode
-          });
-
-        setItineraries(itineraries);
-      } catch (ex) {
-        setError(ex);
-      }
-  
-      setIsLoadingItineraries(false);
-    };
-    
     loadItineraries();
-  }, []);
+  }, [page]);
 
   return (
     <FlightSearchContext.Provider value={props}>
@@ -72,12 +83,16 @@ const FlightSearch = (props) => {
               type={ALERT_TYPES.ERROR}
             />}
 
-          {itineraries && itineraries.itineraries.map(itinerary => (
+          {itineraries && itineraries.map(itinerary => (
             <Itinerary
               key={itinerary.id}
               {...itinerary}
             />
           ))}
+
+          {itineraries && !isLoadingItineraries && <BpkButton
+            className={c('FlightSearch__itineraries-next-button')}
+            onClick={handleClickNext}>Next {DEFAULT_TAKE} Results</BpkButton>}
         </div>
       </div>
     </FlightSearchContext.Provider>

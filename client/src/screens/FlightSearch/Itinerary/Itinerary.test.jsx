@@ -6,7 +6,7 @@ import Itinerary from './Itinerary';
 
 describe('Itinerary', () => {
   const props = {
-    id: 0,
+    id: '0',
     legs: [{
       segments: [
         {

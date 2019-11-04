@@ -12,7 +12,6 @@ const STATUS_CODES = {
   CREATED: 201,
   NOT_MODIFIED: 304,
 };
-const DEFAULT_PAGE_SIZE = 5;
 
 const formatParams = params => querystring.stringify({
   country: 'UK',
@@ -50,16 +49,15 @@ let cache = {};
 // Used to stop the API being hit too often.
 const throttle = () => new Promise(resolve => setTimeout(resolve, POLL_DELAY));
 
-const poll = async (location, pageSize) => {
+const poll = async (location, pageIndex, pageSize) => {
   await throttle();
   console.log('Polling results..');
   try {
-    const pageIndex = 0,
-          { apiKey } = config,
+    const { apiKey } = config,
           query = {
             apiKey,
-            ...(pageIndex ? { pageIndex } : {}),
-            ...(pageSize ? { pageSize } : { pageSize: DEFAULT_PAGE_SIZE }),
+            pageIndex: pageIndex || 0,
+            pageSize: pageSize !== undefined ? pageSize : config.defaultPageSize,
           },
           queryAsString = querystring.stringify(query),
           url = `${location}?${queryAsString}`;
@@ -76,9 +74,9 @@ const poll = async (location, pageSize) => {
   }
 };
 
-const getResults = async (location, pageSize) => {
+const getResults = async (location, pageIndex, pageSize) => {
   try {
-    const response = await poll(location, pageSize);
+    const response = await poll(location, pageIndex, pageSize);
     if (response.Status && response.Status === 'UpdatesComplete') {
       return response;
     }
@@ -92,14 +90,15 @@ const search = async (params) => {
   console.log('Performing live pricing search..');
   try {
     const locationToPoll = await createSession(params);
-    return await getResults(locationToPoll, params.pageSize);
+    return await getResults(locationToPoll, params.pageIndex, params.pageSize);
   } catch (err) {
     throw err;
   }
 };
 
 module.exports = {
-  STATUS_CODES,
-  PRICING_URL,
   search,
+
+  STATUS_CODES,
+  PRICING_URL
 };
