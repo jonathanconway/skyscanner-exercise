@@ -1,5 +1,10 @@
 import { DateTime, Duration } from 'luxon';
 
+/**
+ * Converts a string key/value map into a querystring.
+ * @param {object} query - An object containing properties whose values are strings. E.g.: { "a": "1", "b": "2" }.
+ * @returns {string} The query, represented as a queryString. E.g.: "?a=1&b=2".
+ */
 const encodeQuery = (query) => {
   return Object
           .keys(query)
@@ -111,6 +116,11 @@ const replacePath = (pathAndFilename, newPath) => {
   return `${newPath}/${filename}`;
 };
 
+const formatPriceAmount = (amount) => {
+  return Number(amount).toFixed(2);
+};
+
 export const misc = {
-  replacePath
+  replacePath,
+  formatPriceAmount
 };

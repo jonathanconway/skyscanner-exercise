@@ -84,7 +84,7 @@ const Itinerary = ({ id, legs, price }) => {
       <div className={c('Itinerary__details')}>
         <div>
           <BpkText tag="span" textStyle="xl">
-            {price.currency.symbol}{price.amount}
+            {price.currency.symbol}{misc.formatPriceAmount(price.amount)}
           </BpkText>
           <BpkText tag="span" textStyle="base" className={c('Itinerary__details-source')}>
             {price.agent.name}

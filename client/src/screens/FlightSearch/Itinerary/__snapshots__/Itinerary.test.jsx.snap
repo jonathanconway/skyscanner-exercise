@@ -207,7 +207,7 @@ exports[`Itinerary should render correctly 1`] = `
         textStyle="xl"
       >
         £
-        123
+        123.00
       </BpkText>
       <BpkText
         bold={false}
