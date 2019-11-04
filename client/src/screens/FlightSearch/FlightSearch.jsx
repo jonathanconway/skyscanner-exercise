@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { BpkExtraLargeSpinner } from 'bpk-component-spinner';
+import { BpkExtraLargeSpinner, BpkSpinner } from 'bpk-component-spinner';
 import BpkBannerAlert, { ALERT_TYPES } from 'bpk-component-banner-alert';
 import BpkButton from 'bpk-component-button';
 
@@ -62,7 +62,9 @@ const FlightSearch = (props) => {
   };
 
   useEffect(() => {
-    loadItineraries();
+    if (!isLoadingItineraries) {
+      loadItineraries();
+    }
   }, [page]);
 
   return (
@@ -73,7 +75,7 @@ const FlightSearch = (props) => {
         <Actions />
 
         <div className={c('FlightSearch__itineraries')}>
-          {isLoadingItineraries &&
+          {(isLoadingItineraries && page === 0) &&
             <BpkExtraLargeSpinner className={c('FlightSearch__itineraries-spinner')} />}
           
           {error &&
@@ -90,9 +92,15 @@ const FlightSearch = (props) => {
             />
           ))}
 
-          {itineraries && !isLoadingItineraries && <BpkButton
-            className={c('FlightSearch__itineraries-next-button')}
-            onClick={handleClickNext}>Next {DEFAULT_TAKE} Results</BpkButton>}
+          {(!(isLoadingItineraries && page === 0)) &&
+            <BpkButton
+              className={c('FlightSearch__itineraries-next-button')}
+              onClick={handleClickNext}
+            >
+              Next {DEFAULT_TAKE} Results
+              {(isLoadingItineraries && page > 0) &&
+                <BpkSpinner className={c('FlightSearch__itineraries-next-button-spinner')} />}
+            </BpkButton>}
         </div>
       </div>
     </FlightSearchContext.Provider>
