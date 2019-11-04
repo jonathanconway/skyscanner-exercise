@@ -14,10 +14,10 @@ const STATUS_CODES = {
 };
 
 const formatParams = params => querystring.stringify({
-  country: 'UK',
+  country: config.country,
+  locale: config.locale,
+  locationSchema: config.locationSchema,
   currency: config.currency,
-  locale: 'en-GB',
-  locationSchema: 'Sky',
   apiKey: config.apiKey,
   ...params,
 });

@@ -11,6 +11,9 @@ if (!APIKEY) {
 }
 
 module.exports = {
+  country: 'UK',
+  locale: 'en-GB',
+  locationSchema: 'Sky',
   apiKey: APIKEY,
   skyscannerApi: 'http://partners.api.skyscanner.net/',
   currency: 'GBP',
@@ -19,5 +22,6 @@ module.exports = {
       code: 'GBP',
       symbol: '£'
     }
-  }
+  },
+  defaultPageSize: 5
 };

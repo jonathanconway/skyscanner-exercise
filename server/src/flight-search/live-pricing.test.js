@@ -3,6 +3,9 @@ const livePricing = require('./live-pricing');
 
 // mock config
 jest.mock('../config', () => ({
+  country: 'UK',
+  locale: 'en-GB',
+  locationSchema: 'Sky',
   currency: 'GBP',
   currencies: {
     GBP: {
@@ -59,7 +62,7 @@ describe('live-pricing', () => {
         expect(fetch).toHaveBeenNthCalledWith(1,
           livePricing.PRICING_URL,
           expect.objectContaining({
-            body: 'country=UK&currency=GBP&locale=en-GB&locationSchema=Sky&apiKey=APIKEY',
+            body: 'country=UK&locale=en-GB&locationSchema=Sky&currency=GBP&apiKey=APIKEY',
             method: 'POST'
           }));
         expect(fetch).toHaveBeenNthCalledWith(2,
@@ -92,7 +95,7 @@ describe('live-pricing', () => {
         expect(fetch).toHaveBeenNthCalledWith(1,
           livePricing.PRICING_URL,
           expect.objectContaining({
-            body: 'country=UK&currency=GBP&locale=en-GB&locationSchema=Sky&apiKey=APIKEY' + 
+            body: 'country=UK&locale=en-GB&locationSchema=Sky&currency=GBP&apiKey=APIKEY' + 
                   '&originAirportCode=EDI&destinationAirportCode=LHR&outboundDate=2019-11-04' +
                   '&returnDate=2019-11-04&numberOfTravellers=2&currencyCode=GBP&skip=5&take=10',
             method: 'POST'
