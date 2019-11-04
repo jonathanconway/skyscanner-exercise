@@ -46,7 +46,7 @@ describe('flightSearchHandlers', () => {
             expect(mockRes.json).toHaveBeenCalled();
           } else {
             expect(mockRes.status).toHaveBeenCalledWith(500);
-            expect(mockSend).toHaveBeenCalledWith('Invalid airport code.');
+            expect(mockSend).toHaveBeenCalledWith(expect.objectContaining({ message: expect.stringContaining('Invalid airport code.') }));
           }
         });
       });
@@ -79,7 +79,7 @@ describe('flightSearchHandlers', () => {
             expect(mockRes.json).toHaveBeenCalled();
           } else {
             expect(mockRes.status).toHaveBeenCalledWith(500);
-            expect(mockSend).toHaveBeenCalledWith('Invalid date string.');
+            expect(mockSend).toHaveBeenCalledWith(expect.objectContaining({ message: expect.stringContaining('Invalid date string.') }));
           }
         });
       });
@@ -105,7 +105,34 @@ describe('flightSearchHandlers', () => {
           expect(mockRes.json).toHaveBeenCalled();
         } else {
           expect(mockRes.status).toHaveBeenCalledWith(500);
-          expect(mockSend).toHaveBeenCalledWith('Invalid small int.');
+          expect(mockSend).toHaveBeenCalledWith(expect.objectContaining({ message: expect.stringContaining('Invalid small int.') }));
+        }
+      });
+    });
+
+    it('validates skip', async () => {
+      [
+        [256, false],
+        ['0', false],
+        [null, true],
+        [undefined, true],
+        [0, true],
+        [1, true],
+        [255, true],
+        [5, true],
+      ].forEach(async ([ skip, shouldBeValid ]) => {
+        const query = {
+          ...defaultQuery,
+          skip
+        };
+
+        await flightSearchHandlers.getFlightSearchHandler({ query }, mockRes);
+
+        if (shouldBeValid) {
+          expect(mockRes.json).toHaveBeenCalled();
+        } else {
+          expect(mockRes.status).toHaveBeenCalledWith(500);
+          expect(mockSend).toHaveBeenCalledWith(expect.objectContaining({ message: expect.stringContaining('Invalid small int.') }));
         }
       });
     });

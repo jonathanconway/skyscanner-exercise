@@ -1,3 +1,5 @@
+const Joi = require('@hapi/joi');
+
 const flightSearch = require('./flight-search');  
 
 /**
@@ -30,42 +32,32 @@ const getFlightSearchHandler = async (req, res) => {
 };
 
 /**
-  Validate inputs to /api/search endpoint. Throw if invali.
+  Validate inputs to /api/search endpoint. Throw if invalid.
   @param {...{query: SearchQuery}} req - Request containing SearchQuery.
 */
 const validateApiSearch = (req) => {
-  const validateAirportCode = code => {
-    if (!(code && code.length < 5 && /^[A-Z]*$/gm.test(code))) {
-      throw 'Invalid airport code.';
-    }
+  const validateAirportCode = value => {
+    Joi.assert(value, Joi.string().max(5).pattern(/^[A-Z]*$/), 'Invalid airport code.');
   };
 
-  const validateDateString = dateString => {
-    if (!(dateString && /^[0-9]...-[0-9].-[0-9].$/gm.test(dateString))) {
-      throw 'Invalid date string.';
-    }
+  const validateFlightDateString = value => {
+    Joi.assert(value, Joi.string().pattern(/^[0-9]...-[0-9].-[0-9].$/), 'Invalid date string.');
   };
 
-  const validateSmallInt = smallInt => {
-    const smallIntAsNumber = Number(smallInt);
-    if (smallIntAsNumber && smallIntAsNumber < 0 || smallIntAsNumber > 255) {
-      throw 'Invalid small int.';
-    }
+  const validateTake = value => {
+    Joi.assert(value, Joi.number().max(255), 'Invalid small int.');
   };
 
-  const validateUndefinedOr = (value, fn) => {
-    if (value === undefined) {
-      return;
-    }
-    fn(value);
+  const validateSkip = (value) => {
+    Joi.assert(value, Joi.number().max(255).optional(), 'Invalid small int.');
   };
 
   validateAirportCode(req.query.originAirportCode);
   validateAirportCode(req.query.destinationAirportCode);
-  validateDateString(req.query.outboundDate);
-  validateDateString(req.query.returnDate);
-  validateUndefinedOr(req.query.skip, validateSmallInt);
-  validateSmallInt(req.query.take);
+  validateFlightDateString(req.query.outboundDate);
+  validateFlightDateString(req.query.returnDate);
+  validateSkip(req.query.skip);
+  validateTake(req.query.take);
 };
 
 module.exports = {
